@@ -1,0 +1,87 @@
+[tool.poetry]
+name = "sarvam-explore"
+version = "0.0.1"
+description = ""
+authors = []
+
+[tool.poetry.dependencies]
+python = "<3.13, >3.10"
+pydantic = "^2.10.6"
+langchain-core = "^1.4.0"
+langchain-openai = "^0.3.0"
+langgraph = "^1.0.8"
+langgraph-prebuilt = ">=1.0.0,<=1.0.8"
+sarvamai = "^0.1.28"
+fastapi = "^0.136.3"
+requests = "^2.34.2"
+uvicorn = "^0.48.0"
+python-multipart = "^0.0.29"
+bs4 = "^0.0.2"
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+
+[tool.poetry.group.dev.dependencies]
+python-dotenv = "^1.0.1"
+
+
+[tool.poetry.group.lint.dependencies]
+pre-commit = "^4.0.1"
+codespell = "^2.3.0"
+
+[tool.ruff]
+exclude = [
+    ".bzr",
+    ".direnv",
+    ".eggs",
+    ".git",
+    ".git-rewrite",
+    ".hg",
+    ".mypy_cache",
+    ".nox",
+    ".pants.d",
+    ".pytype",
+    ".ruff_cache",
+    ".svn",
+    ".tox",
+    ".venv",
+    "__pypackages__",
+    "_build",
+    "buck-out",
+    "build",
+    "dist",
+    "node_modules",
+    "venv",
+    "spikes",         # to be able to move faster
+    "experiments",    # to be able to move faster
+]
+
+line-length = 100
+indent-width = 4
+
+# Python 3.11.x
+target-version = "py311"
+
+# Use short output
+output-format = "concise"
+
+[tool.ruff.lint]
+# Rules https://beta.ruff.rs/docs/rules/
+select = [
+    "E", # pycodestyle errors
+    "W", # pycodestyle warnings
+    "F", # Pyflakes
+]
+
+# Linting error codes to ignore
+ignore = []
+
+[tool.codespell]
+skip = '.git,*.pdf,*.svg,*.pdf,*.yaml,*.ipynb,**/poetry.lock,poetry.lock,*.min.js,*.css,package-lock.json,example_data,_dist,examples,templates,*.trig'
+
+# comma separated list of words to ignore
+ignore-words-list = 'ANUALLY,Anually'
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
