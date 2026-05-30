@@ -77,3 +77,5 @@ bulbul/
 │   └── style.css            # Styling
 └── uploads/                 # Temporarily stored document text
 ```
+
+[Demo Recording](./bulbul_demo.mp4)
