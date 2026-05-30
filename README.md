@@ -13,13 +13,13 @@ Bulbul is a multilingual document assistant that lets you upload a PDF, ask ques
 
 ## Sarvam APIs Used
 
-| API | Purpose |
-|-----|---------|
-| **Document Intelligence** (`document_intelligence`) | Converts uploaded PDFs to structured HTML/text |
-| **Language Identification** (`text.identify_language`) | Detects the language of the answer to convert text to speech |
-| **Chat Completions** (`chat.completions` — `sarvam-105b`) | Answers questions from document content |
-| **Text-to-Speech** (`text_to_speech.convert` — `bulbul:v3`) | Reads answers aloud in the correct language |
-| **Speech-to-Text** (`speech_to_text`) | Transcribes voice questions from the microphone |
+| API                                                         | Purpose                                                      |
+| ----------------------------------------------------------- | ------------------------------------------------------------ |
+| **Document Intelligence** (`document_intelligence`)         | Converts uploaded PDFs to structured HTML/text               |
+| **Language Identification** (`text.identify_language`)      | Detects the language of the answer to convert text to speech |
+| **Chat Completions** (`chat.completions` — `sarvam-105b`)   | Answers questions from document content                      |
+| **Text-to-Speech** (`text_to_speech.convert` — `bulbul:v3`) | Reads answers aloud in the correct language                  |
+| **Speech-to-Text** (`speech_to_text`)                       | Transcribes voice questions from the microphone              |
 
 ---
 
