@@ -1,6 +1,7 @@
 # Bulbul — Document Assistant
 
-Bulbul is a multilingual document assistant that lets you upload a PDF, ask questions about it in any Indian language, and listen to the answers read aloud.
+Bulbul is a basic multilingual document assistant that lets you upload a PDF, ask questions about it in any Indian language, and listen to the answers read aloud.
+The aim of this project was to explore the Sarvam APIs. This project uses only sarvam APIs for LLM capabilities.
 
 ## How it works
 
@@ -79,3 +80,47 @@ bulbul/
 ```
 
 [Demo Recording](./bulbul_demo.mp4)
+
+---
+
+## Findings & Limitations
+
+### `sarvam-105b` — Language Instruction Following
+
+**Scenario:** Document text is in Hindi (or any Indian language). User asks a question in English. The system prompt instructs the model to detect the question language and respond in the same language.
+
+**Finding:** The model consistently ignored the language instruction and responded in the language of the document, not the question. This held true even with explicit, step-by-step chain-of-thought prompting:
+
+```python
+response = client.chat.completions(
+    model="sarvam-105b",
+    messages=[
+        {
+            "role": "system",
+            "content": """
+You are a document assistant.
+
+Answer ONLY from the provided document.
+If the answer is not present, say so.
+
+Plan of action:
+1) Analyse the Document data to understand its content and structure. Detect the language of the document.
+2) Analyse the User question to understand what is being asked. Detect the language of the question.
+3) Come up with the answer for the question
+4) Translate the answer to the same language as the question.
+
+Remember to follow the plan of action step by step, and ensure that the final answer is in the same
+language as the user's question.
+"""
+        },
+        {
+            "role": "user",
+            "content": f"Document data:\n{doc_data}\n\nUser question:\n{user_message}"
+        }
+    ]
+)
+```
+
+**Root Cause:** `sarvam-105b` is optimised for Indian languages and appears to have a strong prior toward the dominant language in the context window (i.e. the document). It does not reliably follow cross-lingual output instructions.
+
+**Workaround:** Detect the question language independently using `text.identify_language`, let the LLM answer freely (it will answer in the document language), then post-process the answer through `text.translate` (`mayura:v1`) to the target language. This gives reliable results since translation is handled by a dedicated model rather than relying on the LLM's instruction-following.
