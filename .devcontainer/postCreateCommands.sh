@@ -71,8 +71,22 @@ poetry run pre-commit run --all-files
 ##################################
 ### CONFIGURE GIT CREDENTIALS ###
 #################################
-echo "Please configure git with your name and email:"
-read -p "Enter your name: " user_name
-git config --global user.name "$user_name"
-read -p "Enter your email: " user_email
-git config --global user.email "$user_email"
+# Configure git name and email safely (checking if interactive)
+if [ -z "$(git config --global user.name)" ]; then
+    if [ -t 0 ]; then
+        read -p "Enter your name: " user_name
+        git config --global user.name "$user_name"
+    else
+        git config --global user.name "vscode"
+    fi
+fi
+
+if [ -z "$(git config --global user.email)" ]; then
+    if [ -t 0 ]; then
+        read -p "Enter your email: " user_email
+        git config --global user.email "$user_email"
+    else
+        git config --global user.email "vscode@example.com"
+    fi
+fi
+

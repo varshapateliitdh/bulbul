@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bulbul — Document Assistant</title>
+  <meta name="description"
+    content="Upload documents and have intelligent conversations with your files using Bulbul AI.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <!-- ═══════ Upload Screen ═══════ -->
+  <div id="upload-screen" class="screen active">
+    <div class="ambient-glow ambient-glow--1"></div>
+    <div class="ambient-glow ambient-glow--2"></div>
+
+    <div class="upload-container">
+      <div class="brand">
+        <div class="brand-icon">
+          <img src="logo.svg" alt="Bulbul" class="brand-logo">
+        </div>
+        <h1 class="brand-name">Bulbul</h1>
+      </div>
+
+      <p class="upload-prompt">Please upload a file to begin the conversation</p>
+
+      <div class="lang-select-wrapper">
+        <label class="lang-select-label" for="lang-select">Document language</label>
+        <div class="lang-select-inner">
+          <select id="lang-select" class="lang-select">
+            <option value="en-IN">English</option>
+            <option value="hi-IN">Hindi — हिन्दी</option>
+            <option value="bn-IN">Bengali — বাংলা</option>
+            <option value="gu-IN">Gujarati — ગુજરાતી</option>
+            <option value="kn-IN">Kannada — ಕನ್ನಡ</option>
+            <option value="ml-IN">Malayalam — മലയാളം</option>
+            <option value="mr-IN">Marathi — मराठी</option>
+            <option value="or-IN">Odia — ଓଡ଼ିଆ</option>
+            <option value="pa-IN">Punjabi — ਪੰਜਾਬੀ</option>
+            <option value="ta-IN">Tamil — தமிழ்</option>
+            <option value="te-IN">Telugu — తెలుగు</option>
+            <option value="ur-IN">Urdu — اردو</option>
+            <option value="as-IN">Assamese — অসমীয়া</option>
+            <option value="bodo-IN">Bodo — बड़ो</option>
+            <option value="doi-IN">Dogri — डोगरी</option>
+            <option value="ks-IN">Kashmiri — کٲشُر</option>
+            <option value="kok-IN">Konkani — कोंकणी</option>
+            <option value="mai-IN">Maithili — मैथिली</option>
+            <option value="mni-IN">Manipuri — মৈতৈলোন্</option>
+            <option value="ne-IN">Nepali — नेपाली</option>
+            <option value="sa-IN">Sanskrit — संस्कृतम्</option>
+            <option value="sat-IN">Santali — ᱥᱟᱱᱛᱟᱲᱤ</option>
+            <option value="sd-IN">Sindhi — سنڌي</option>
+          </select>
+          <svg class="lang-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none">
+            <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+              stroke-linejoin="round" />
+          </svg>
+        </div>
+      </div>
+
+      <div class="upload-zone" id="upload-zone">
+        <div class="upload-zone-inner">
+          <div class="upload-icon">
+            <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+              <path d="M24 32V16m0 0l-6 6m6-6l6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" />
+              <path d="M38 32c2.2-1.3 4-4 4-7a8 8 0 00-10.7-7.5A12 12 0 008 22a12 12 0 003 8" stroke="currentColor"
+                stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </div>
+          <p class="upload-text">Drag & drop your PDF here</p>
+          <p class="upload-subtext">or click to browse</p>
+        </div>
+        <input type="file" id="file-input" accept=".pdf" hidden>
+      </div>
+
+      <div class="upload-status" id="upload-status" style="display:none">
+        <div class="loader-ring">
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+        </div>
+        <p class="status-text" id="status-text">Processing your document…</p>
+      </div>
+
+      <div class="upload-error" id="upload-error" style="display:none">
+        <p id="error-text"></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════ Chat Screen ═══════ -->
+  <div id="chat-screen" class="screen">
+    <div class="chat-header">
+      <div class="header-left">
+        <div class="header-icon">
+          <img src="logo.svg" alt="Bulbul" class="header-logo">
+        </div>
+        <span class="header-title">Bulbul</span>
+      </div>
+      <div class="header-file" id="header-file"></div>
+    </div>
+
+    <div class="messages-container" id="messages-container">
+      <div class="welcome-card">
+        <div class="welcome-icon">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
+            <path
+              d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+              stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </div>
+        <p>Your document is ready. Ask me anything about it!</p>
+      </div>
+    </div>
+
+    <div class="input-bar">
+      <div class="input-wrapper">
+        <textarea id="message-input" placeholder="Ask something about your document…" rows="1"></textarea>
+        <div class="input-actions">
+          <button id="mic-btn" class="action-btn mic-btn" title="Voice input">
+            <svg class="mic-icon" width="20" height="20" viewBox="0 0 24 24" fill="none">
+              <rect x="9" y="2" width="6" height="12" rx="3" stroke="currentColor" stroke-width="2" />
+              <path d="M5 11a7 7 0 0014 0" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+              <path d="M12 18v4m-3 0h6" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+            </svg>
+            <svg class="stop-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" style="display:none">
+              <rect x="6" y="6" width="12" height="12" rx="2" fill="currentColor" />
+            </svg>
+          </button>
+          <button id="send-btn" class="action-btn send-btn" title="Send message">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+              <path d="M5 12h14m0 0l-6-6m6 6l-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" />
+            </svg>
+          </button>
+        </div>
+      </div>
+      <div class="recording-indicator" id="recording-indicator" style="display:none">
+        <span class="recording-dot"></span>
+        <span>Recording…</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast container -->
+  <div id="toast-container"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lamejs@1.2.1/lame.min.js"></script>
+  <script src="app.js"></script>
+</body>
+
+</html>

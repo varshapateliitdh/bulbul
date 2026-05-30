@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 200" fill="none" stroke-width="6" stroke-linecap="round" stroke-linejoin="round">
+  <defs>
+    <linearGradient id="birdGrad" x1="0" y1="0" x2="160" y2="200" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#8b5cf6"/>
+      <stop offset="100%" stop-color="#06b6d4"/>
+    </linearGradient>
+  </defs>
+  <g stroke="url(#birdGrad)">
+    <!-- Crest -->
+    <path d="M105 10 C100 22 98 32 104 46"/>
+    <!-- Head -->
+    <path d="M104 46 C120 44 132 54 130 68 C128 80 116 88 102 86 C88 84 80 72 84 60 C87 50 96 46 104 46 Z"/>
+    <!-- Beak -->
+    <path d="M84 64 L60 60"/>
+    <path d="M60 60 L84 72"/>
+    <!-- Eye -->
+    <circle cx="106" cy="64" r="3.5" fill="url(#birdGrad)" stroke="none"/>
+    <!-- Body -->
+    <path d="M102 86 C84 90 68 104 68 124 C68 146 84 162 106 162 C128 162 144 146 142 126 C140 106 124 90 108 86 Z"/>
+    <!-- Tail -->
+    <path d="M70 128 C60 138 52 158 58 178"/>
+    <!-- Legs -->
+    <line x1="100" y1="162" x2="96" y2="180"/>
+    <line x1="116" y1="160" x2="120" y2="178"/>
+    <!-- Perch -->
+    <line x1="58" y1="180" x2="148" y2="180"/>
+    <!-- Back toe -->
+    <line x1="96" y1="180" x2="80" y2="186"/>
+    <!-- Front toe -->
+    <line x1="120" y1="178" x2="138" y2="184"/>
+  </g>
+</svg>

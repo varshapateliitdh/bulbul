@@ -5,6 +5,7 @@ from backend.chat import router as chat_router
 from backend.talk import router as talk_router
 from backend.read_aloud import router as read_aloud_router
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 import ssl
 import httpx
 
@@ -37,6 +38,15 @@ httpx.AsyncClient.__init__ = _patched_async_client_init
 load_dotenv(dotenv_path="../.env")
 
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+    expose_headers=["X-Language-Code"],
+)
 
 app.include_router(upload_file_router)
 app.include_router(chat_router)

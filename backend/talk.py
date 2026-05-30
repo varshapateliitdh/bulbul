@@ -7,7 +7,9 @@ import logging
 import tempfile
 from dotenv import load_dotenv
 from sarvamai import SarvamAI
-from backend.chat import generate_chat_stream, generate_doc_data
+from backend.chat import generate_chat_stream
+
+from backend.doc_utils import load_doc_text
 from fastapi.responses import StreamingResponse
 
 logging.basicConfig(
@@ -34,7 +36,7 @@ router = APIRouter(
 
 
 @router.post("/talk", status_code=200)
-async def speech_to_text(file: UploadFile = File(...)):
+async def speech_to_text(file: UploadFile = File(...), doc_filename: str = ""):
 
     if file.content_type not in (
         "audio/mpeg",
@@ -107,7 +109,7 @@ async def speech_to_text(file: UploadFile = File(...)):
             )
 
             doc_data = (
-                generate_doc_data()
+                load_doc_text(doc_filename)
             )
 
             return StreamingResponse(
@@ -115,7 +117,7 @@ async def speech_to_text(file: UploadFile = File(...)):
                     transcript,
                     doc_data
                 ),
-                media_type="text/plain"
+                media_type="text/plain",
             )
 
         except Exception as e:

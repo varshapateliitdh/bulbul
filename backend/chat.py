@@ -1,13 +1,13 @@
 import ssl
+import re
 import httpx
-import zipfile
-from bs4 import BeautifulSoup
 from fastapi import APIRouter, HTTPException
 import os
 import logging
 from dotenv import load_dotenv
 from sarvamai import SarvamAI
 from fastapi.responses import StreamingResponse
+from backend.doc_utils import load_doc_text
 
 logging.basicConfig(
     level=logging.INFO,
@@ -45,7 +45,9 @@ You are a document assistant.
 Answer ONLY from the provided document.
 If the answer is not present, say so.
 
-Respond in the same language as the user's query.
+You SHOULD always respond in the same language as the document, regardless of the language of the
+user's question.
+
 """
             },
             {
@@ -72,47 +74,20 @@ User question:
             "content",
             None
         )
-
         if content:
             yield content
 
-def generate_doc_data():
-    try:
-        with zipfile.ZipFile("/workspaces/bulbul/backend/output.zip", "r") as zip_ref:
-
-            # check if file exists in zip
-            if "document.html" not in zip_ref.namelist():
-                raise FileNotFoundError(
-                    "document.html not found inside zip"
-                )
-
-            # read html content
-            with zip_ref.open("document.html") as html_file:
-                html_content = html_file.read().decode("utf-8")
-
-            # convert html -> text
-            soup = BeautifulSoup(html_content, "html.parser")
-            text = soup.get_text(separator="\n", strip=True)
-
-            doc_data = text
-            logger.info("Document data extracted successfully")
-            return doc_data
-    except Exception as e:
-        logger.error(f"Error extracting document data: {e}")
-        raise HTTPException(
-            status_code=500, detail="Failed to extract document data")
-
 
 @router.post("/chat", status_code=200)
-async def chat(user_message: str):
+async def chat(user_message: str, doc_filename: str):
     try:
-        doc_data = generate_doc_data()
+        doc_data = load_doc_text(doc_filename)
         return StreamingResponse(
             generate_chat_stream(
                 user_message,
                 doc_data
             ),
-            media_type="text/plain"
+            media_type="text/plain",
         )
     except Exception as e:
         logger.error(f"Error processing chat completion: {e}")
